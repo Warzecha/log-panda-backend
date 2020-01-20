@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1579528613127" clover="3.2.0">
+  <project timestamp="1579528613128" name="All files">
+    <metrics statements="17" coveredstatements="16" conditionals="2" coveredconditionals="2" methods="7" coveredmethods="6" elements="26" coveredelements="24" complexity="0" loc="17" ncloc="17" packages="1" files="2" classes="2"/>
+    <file name="elapsedTimeUtils.js" path="/Users/damianwarzecha/Coding/log-panda-backend/utils/elapsedTimeUtils.js">
+      <metrics statements="8" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
+      <line num="1" count="1" type="stmt"/>
+      <line num="2" count="1" type="stmt"/>
+      <line num="3" count="0" type="stmt"/>
+      <line num="6" count="1" type="stmt"/>
+      <line num="7" count="1" type="stmt"/>
+      <line num="8" count="1" type="stmt"/>
+      <line num="9" count="1" type="stmt"/>
+      <line num="11" count="1" type="stmt"/>
+    </file>
+    <file name="errorRateUtils.js" path="/Users/damianwarzecha/Coding/log-panda-backend/utils/errorRateUtils.js">
+      <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="5" coveredmethods="5"/>
+      <line num="2" count="1" type="stmt"/>
+      <line num="3" count="4" type="stmt"/>
+      <line num="10" count="8" type="stmt"/>
+      <line num="19" count="8" type="cond" truecount="2" falsecount="0"/>
+      <line num="20" count="8" type="stmt"/>
+      <line num="21" count="8" type="stmt"/>
+      <line num="24" count="1" type="stmt"/>
+      <line num="25" count="1" type="stmt"/>
+      <line num="26" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>

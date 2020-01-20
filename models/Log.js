@@ -24,6 +24,9 @@ const schema = new Schema({
     statusMessage: {
         type: String
     },
+    requestId: {
+        type: String
+    },
 });
 
 mongoose.model('Log', schema);

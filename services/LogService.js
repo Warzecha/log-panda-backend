@@ -6,7 +6,11 @@ const App = mongoose.model('App');
 exports.create = async (toCreate) => {
 
     try {
-        let app = await App.findOne({name: toCreate.appName}).exec();
+
+        const filter = {name: toCreate.appName};
+        const update = {name: toCreate.appName, maxRpm: toCreate.maxRpm};
+
+        let app = await App.findOneAndUpdate(filter, update);
 
         if (!app) {
             console.log("App not found", app);
