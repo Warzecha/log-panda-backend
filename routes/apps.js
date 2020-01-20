@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const {create, list} = require('../controllers/LogController');
+const {create, list} = require('../controllers/AppController');
 
 router.get('/', list);
-
-router.post('/', create);
 
 module.exports = router;
