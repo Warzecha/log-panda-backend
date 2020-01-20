@@ -10,7 +10,6 @@ const schema = new Schema({
         type: String
     },
 
-
     totalRequestCount: {
         type: Number
     },
@@ -28,7 +27,6 @@ const schema = new Schema({
     timestamp: {
         type: Number
     },
-
 
     elapsedTime50: {
         type: Number

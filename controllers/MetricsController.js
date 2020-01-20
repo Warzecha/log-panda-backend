@@ -2,7 +2,7 @@
 // const Log = mongoose.model('Log');
 // const App = mongoose.model('App');
 
-const {scan} = require('../services/MetricsService');
+const {scan, find} = require('../services/MetricsService');
 
 exports.scan = (req, res) => {
     scan()
@@ -14,4 +14,15 @@ exports.scan = (req, res) => {
             console.log(err);
             res.status(500).send(err);
         });
+};
+
+
+exports.list = async (req, res) => {
+    try {
+        const metrics = await find(req.query);
+        console.log("Tutaj", metrics);
+        res.json(metrics)
+    } catch (err) {
+        res.status(500).json(err)
+    }
 };

@@ -5,31 +5,19 @@ const App = mongoose.model('App');
 
 exports.create = async (toCreate) => {
 
-    App.findOne({name: toCreate.appName}).exec()
-        .then(app => {
+    try {
+        let app = await App.findOne({name: toCreate.appName}).exec();
 
-            if (app) {
-                console.log("Found app", app);
-                return Log.create(toCreate)
-            } else {
-                console.log("App not found", app);
+        if (!app) {
+            console.log("App not found", app);
+            app = await App.create({name: toCreate.appName});
+            console.log("Created app", app);
+        }
 
-                // maybe return the promise
-                App.create({name: toCreate.appName})
-                    .then((createdApp) => {
-                        console.log("Created app", createdApp);
-                        return Log.create(toCreate)
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
-            }
-
-
-        })
-        .catch(err => {
-            console.log("Error", err)
-        })
+        return await Log.create(toCreate);
+    } catch (err) {
+        console.log("Error", err)
+    }
 };
 
 exports.find = (query) => {
@@ -50,6 +38,4 @@ exports.find = (query) => {
     };
 
     return Log.find(conditions).exec()
-
-
 };

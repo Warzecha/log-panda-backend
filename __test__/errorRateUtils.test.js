@@ -1,4 +1,4 @@
-const {calculateErrorRates} = require('../utils/metricsUtils');
+const {calculateErrorRates} = require('../utils/errorRateUtils');
 
 const withCode = (code) => ({statusCode: code});
 

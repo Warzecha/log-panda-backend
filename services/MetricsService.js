@@ -1,21 +1,23 @@
 const mongoose = require('mongoose');
+const {calculateElapsedTimeMetrics} = require("../utils/elapsedTimeUtils");
+const {calculateErrorRates} = require("../utils/errorRateUtils");
 const Log = mongoose.model('Log');
-const App = mongoose.model('App');
+const Metric = mongoose.model('Metric');
 
-const {find} = require('../services/LogService');
+// const MINUTE = 3600_000;
+const MINUTE = 10_000;
 
-
-const MINUTE = 3600_000;
-
-exports.schedule = () => {
-
+exports.scheduleMetricsScan = () => {
     return setInterval(scan, MINUTE)
 };
 
 const scan = async () => {
 
+
     const endTimestamp = Date.now();
     const startTimestamp = endTimestamp - MINUTE;
+
+    console.log("Perform scan at: ", new Date(endTimestamp));
 
     const condition = {
         timestamp: {
@@ -25,28 +27,53 @@ const scan = async () => {
     };
 
     try {
-        let appList = await App.find().exec();
-
+        // let appList = await App.find().exec();
         let logList = await Log.find(condition).exec();
 
-        Object.entries(groupByAppName(logList)).forEach(([appName, appLogs]) => {
+        let metrics = Object.entries(groupByAppName(logList)).map(([appName, appLogs]) => {
 
-            let errorRates = calculateErrorRates(appLogs)
+            let errorRatesMetrics = calculateErrorRates(appLogs);
+            let elapsedTimeMetrics = calculateElapsedTimeMetrics(appLogs);
 
+            return ({
+                ...errorRatesMetrics,
+                ...elapsedTimeMetrics,
+                timestamp: endTimestamp,
+                appName: appName
+            })
+        });
+
+        await Metric.create(metrics, err => {
+            console.log(err)
         })
 
-
-
-
-
-
     } catch (e) {
+        console.log(e)
 
     }
 
 };
 
-exports.scan = scan;
+exports.find = (query) => {
+    const {
+        startTimestamp,
+        endTimestamp,
+        appName
+    } = query || {};
+
+    const conditions = {
+        timestamp: {
+            $gte: startTimestamp || Number.MIN_VALUE,
+            $lte: endTimestamp || Number.MAX_VALUE
+        },
+        appName: appName || /.*/
+    };
+
+    console.log(conditions);
+
+    return Metric.find(conditions).exec()
+};
+
 
 const groupByAppName = (logs) => {
     return logs.reduce((rv, x) => {
@@ -54,6 +81,9 @@ const groupByAppName = (logs) => {
         return rv;
     }, {});
 };
+
+
+exports.scan = scan;
 
 
 

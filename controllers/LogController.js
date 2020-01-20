@@ -2,7 +2,6 @@
 const {create, find} = require('../services/LogService');
 
 exports.create = (req, res) => {
-    console.log(req.body)
     create(req.body)
         .then(createdLog => {
             console.log("Created", createdLog);
